@@ -5,4 +5,3 @@
 + Other player can be human or simple AI 
 + Heavy focus on control systems 
 + Also learning terrains, UI, terrain sculpting & more 
-+ Dive right in and enjoy yourself!
