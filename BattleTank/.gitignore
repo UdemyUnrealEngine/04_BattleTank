@@ -49,6 +49,10 @@
 SourceArt/**/*.png
 SourceArt/**/*.tga
 
+# StarterContent
+/Content/StarterContent/Textures
+/Content/StarterContent/HDRI
+
 # Binary Files
 Binaries/*
 
