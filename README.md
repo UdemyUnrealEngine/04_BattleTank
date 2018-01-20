@@ -1,2 +1,3 @@
-# 04_BattleTank
-Opne world head to head tank fight whit simple AI
+# BattleTank
+Open world head to head tank fight, whit simple AI
+
