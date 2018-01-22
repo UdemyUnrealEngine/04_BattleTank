@@ -25,6 +25,12 @@ void ATank::Tick(float DeltaTime)
 
 }
 
+void ATank::AimAt(FVector HitLocation)
+{
+	auto ThisName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s is aming at %s "), *ThisName, *HitLocation.ToString())
+}
+
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

@@ -28,8 +28,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetcontrolledTank()) { return; }
 	FVector HitLocation; //OUT param
 	if (GetSightRayHitLocation(HitLocation)) {
-		UE_LOG(LogTemp, Warning, TEXT("hit location: %s "), *HitLocation.ToString())
-			
+		
+		GetcontrolledTank()->AimAt(HitLocation);
 		//turn turret
 	}
 	

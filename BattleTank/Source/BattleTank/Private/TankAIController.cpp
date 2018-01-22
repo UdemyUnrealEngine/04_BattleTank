@@ -4,6 +4,10 @@
 #include "Engine/World.h"
 
 
+void ATankAIController::AimAt(FVector HitLocation)
+{
+}
+
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -24,6 +28,17 @@ void ATankAIController::BeginPlay()
 	
 }
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime); // Call parent class tick function  
+	if (GetPlayerTank()) { 
+		if (!GetAIControllerPawn()) { return; }
+		GetAIControllerPawn()->AimAt(GetPlayerTank()->GetActorLocation());
+	}
+	
+
+	
+}
 ATank * ATankAIController::GetAIControllerPawn() const
 {
 	return Cast<ATank>(GetPawn());

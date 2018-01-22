@@ -13,6 +13,12 @@ UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
+public:
+	virtual void Tick(float DeltaTime) override;
+	void AimAt(FVector HitLocation);
+
+protected:
+
 private:
 		virtual void BeginPlay() override;
 		ATank* GetAIControllerPawn() const;
