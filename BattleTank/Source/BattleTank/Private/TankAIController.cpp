@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+#include "Tank.h"
 #include "TankAIController.h"
 #include "Engine/World.h"
 
@@ -21,7 +21,7 @@ void ATankAIController::BeginPlay()
 			
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("GetPlayerTank function found %s"), *PlayerController->GetName())
+		//UE_LOG(LogTemp, Warning, TEXT("GetPlayerTank function found %s"), *PlayerController->GetName())
 			
 	}
 

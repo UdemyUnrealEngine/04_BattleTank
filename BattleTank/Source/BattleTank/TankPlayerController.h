@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include "Tank.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
@@ -9,7 +9,9 @@
 /**
  * 
  */
+class ATank;
 UCLASS()
+
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
@@ -33,5 +35,5 @@ private:
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 0.3;
 	UPROPERTY(EditAnywhere)
-		float LineTraceRange = 1000000.0;
+	float LineTraceRange = 100000.0;
 };

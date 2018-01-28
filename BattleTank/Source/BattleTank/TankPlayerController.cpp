@@ -1,16 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "tank.h"
 #include "TankPlayerController.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 
+
 void ATankPlayerController::BeginPlay() {
 	
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
+	
 	ATank* Tank = GetcontrolledTank();
 	if (Tank) {
-		UE_LOG(LogTemp, Warning, TEXT("%s is set to Player Controller"),*Tank->GetName());
+		
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("ControlledTank pawn not returned"));
@@ -25,9 +27,13 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetcontrolledTank()) { return; }
-	FVector HitLocation; //OUT param
-	if (GetSightRayHitLocation(HitLocation)) {
+	bool bFoundPlayerController = GetcontrolledTank();
+	if (!bFoundPlayerController) { return; }
+
+	FVector HitLocation(-1); //OUT param
+
+	bool bFoundHitLocation = GetSightRayHitLocation(HitLocation);
+	if (bFoundHitLocation) {
 		
 		GetcontrolledTank()->AimAt(HitLocation);
 		//turn turret
@@ -45,10 +51,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 
 	if (GetLookDirection(CrossHairLocation, CrossHairHitDirection)) {//returns a value for CrossHairHitlocation
 
-		GetRayCastLocation(CrossHairHitDirection, HitLocation);// raycast to trace location and return vector to HitLocation
+		return GetRayCastLocation(CrossHairHitDirection, HitLocation);// raycast to trace location and return vector to HitLocation
 	
 	}
-	return true;
+	return false;
 	
 
 	
@@ -72,14 +78,8 @@ bool ATankPlayerController::GetRayCastLocation(FVector CrossHairHitDirection, FV
 	auto PlayerLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = PlayerLocation + CrossHairHitDirection * LineTraceRange;
 
-	DrawDebugLine(
-		GetWorld(),
-		PlayerLocation,
-		EndLocation,
-		FColor(255, 0, 0),
-		false, -1, 0,
-		5
-	);
+	//DrawDebugLine(GetWorld(),PlayerLocation,EndLocation,FColor(255, 0, 0),false, -1, 0,5);
+
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, PlayerLocation, EndLocation, ECollisionChannel::ECC_Visibility)) {
 		HitLocation = HitResult.Location;
 		return true;
