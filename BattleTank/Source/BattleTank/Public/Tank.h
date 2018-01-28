@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "TankAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
@@ -14,10 +14,12 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UStaticMeshComponent * BarrelToSet);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UTankAimingComponent * TankAimingComponent = nullptr;
 
 public:	
 	// Called every frame

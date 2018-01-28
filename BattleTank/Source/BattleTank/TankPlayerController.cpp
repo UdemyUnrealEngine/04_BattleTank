@@ -41,11 +41,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 	int32 XViewPort, YViewPort;
 	GetViewportSize(XViewPort, YViewPort);
 	FVector2D CrossHairLocation(XViewPort * CrossHairXLocation, YViewPort * CrossHairYLocation);
-	FVector CrossHairHitlocation;// used as OUT params in GetLookDirection()
+	FVector CrossHairHitDirection;// used as OUT params in GetLookDirection()
 
-	if (GetLookDirection(CrossHairLocation, CrossHairHitlocation)) {//returns a value for CrossHairHitlocation
+	if (GetLookDirection(CrossHairLocation, CrossHairHitDirection)) {//returns a value for CrossHairHitlocation
 
-		GetRayCastLocation(CrossHairHitlocation, HitLocation);// raycast to trace location and return vector to HitLocation
+		GetRayCastLocation(CrossHairHitDirection, HitLocation);// raycast to trace location and return vector to HitLocation
 	
 	}
 	return true;
@@ -56,19 +56,21 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 	
 	
 }
-bool ATankPlayerController::GetLookDirection(FVector2D CrossHairLocation, FVector & CrossHairHitlocation) const
+
+bool ATankPlayerController::GetLookDirection(FVector2D CrossHairLocation, FVector & CrossHairHitDirection) const
 {
-	FVector CameraWorldLocation;// Not Used but needed
-	return DeprojectScreenPositionToWorld(CrossHairLocation.X, CrossHairLocation.Y, CameraWorldLocation, CrossHairHitlocation);
+	FVector CameraWorldLocation;// Not Used but needed(OUT param)
+	//turns 2d screen posistion in to 3d posistion and direction, last to params ar OUT params
+	return DeprojectScreenPositionToWorld(CrossHairLocation.X, CrossHairLocation.Y, CameraWorldLocation, CrossHairHitDirection);
 
 
 }
-bool ATankPlayerController::GetRayCastLocation(FVector CrossHairHitlocation, FVector & HitLocation) const
+bool ATankPlayerController::GetRayCastLocation(FVector CrossHairHitDirection, FVector & HitLocation) const
 {
 
 	FHitResult HitResult;
 	auto PlayerLocation = PlayerCameraManager->GetCameraLocation();
-	auto EndLocation = PlayerLocation + CrossHairHitlocation * LineTraceRange;
+	auto EndLocation = PlayerLocation + CrossHairHitDirection * LineTraceRange;
 
 	DrawDebugLine(
 		GetWorld(),

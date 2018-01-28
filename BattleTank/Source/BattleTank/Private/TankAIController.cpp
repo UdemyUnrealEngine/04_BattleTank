@@ -34,6 +34,8 @@ void ATankAIController::Tick(float DeltaTime)
 	if (GetPlayerTank()) { 
 		if (!GetAIControllerPawn()) { return; }
 		GetAIControllerPawn()->AimAt(GetPlayerTank()->GetActorLocation());
+		
+
 	}
 	
 
