@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values for this component's properties
@@ -79,6 +80,12 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 	
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
+{
+	Turret = TurretToSet;
+	auto OwnerName = GetOwner()->GetName();
+}
+
 void UTankAimingComponent::GetBarrelReference() // TODO remove
 {
 	auto OwnerName = GetOwner()->GetName();
@@ -89,7 +96,17 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto DeltaBarrel = AimDirection.Rotation() - BarrelRotator;
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaBarrel.Pitch);
+
+	if (FMath::Abs(DeltaBarrel.Yaw) < 180)
+	{
+		Turret->Rotate(DeltaBarrel.Yaw);
+	}
+	else // Avoid going the long-way round
+	{
+		Turret->Rotate(-DeltaBarrel.Yaw);
+	}
+	
 	
 
 }
