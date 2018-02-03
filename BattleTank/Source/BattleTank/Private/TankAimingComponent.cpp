@@ -61,8 +61,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 		
 		auto AimDirection = OutVelocity.GetSafeNormal();
 		MoveBarrel(AimDirection);
-		auto time = GetWorld()->GetRealTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Aim soultion found at %s"), time, *AimDirection.ToString())
+		//auto time = GetWorld()->GetRealTimeSeconds();
+		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim soultion found at %s"), time, *AimDirection.ToString())
 	}
 	else {
 

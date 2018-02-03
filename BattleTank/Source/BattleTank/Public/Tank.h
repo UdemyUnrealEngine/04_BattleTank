@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+class AProjectile;
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -19,11 +21,19 @@ public:
 	ATank();
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel * BarrelToSet);
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret * TurretToSet);
+private:
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 10000; // Sesible starting value of 1000 m/s
+	// Sesible starting value of 1000 m/s
+	float LaunchSpeed = 10000; 
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile>  ProjectileBlueprint ; // alternetive https://docs.unrealengine.com/latest/INT/Programming/UnrealArchitecture/TSubclassOf/
+	// local refrense to the barrel to spawn projectiles.
+	UTankBarrel * Barrel = nullptr;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
