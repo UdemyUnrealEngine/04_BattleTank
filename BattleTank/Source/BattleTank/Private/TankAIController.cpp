@@ -1,22 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
+#include "TankBarrel.h"
 #include "Engine/World.h"
 #include "Tank.h"
 
 
-void ATankAIController::AimAt(FVector HitLocation)
-{
-}
+
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 	
-
-	auto PlayerController = GetPlayerTank();
 	if (!PlayerController) {
 		UE_LOG(LogTemp, Warning, TEXT("GetPlayerTank function did not find a Player Controller!"))
 			
@@ -32,25 +28,21 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime); // Call parent class tick function  
-	if (GetPlayerTank()) { 
-		if (!GetAIControllerPawn()) { return; }
-		GetAIControllerPawn()->AimAt(GetPlayerTank()->GetActorLocation());
+	PlayerController = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	AIController = Cast<ATank>(GetPawn());
+	if (AIController && PlayerController) {
+		if (AIController->AimAt(PlayerController->GetActorLocation())) {
+			AIController->Fire();
+		}
+		
+		
+			
+		
+	}
 		
 
-	}
-	
-
-	
 }
-ATank * ATankAIController::GetAIControllerPawn() const
+void ATankAIController::AimAt(FVector HitLocation)
 {
-	return Cast<ATank>(GetPawn());
 }
 
-ATank * ATankAIController::GetPlayerTank() const
-{
-	
-		ATank* PlayerController = nullptr;
-		PlayerController = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-		return PlayerController;
-}

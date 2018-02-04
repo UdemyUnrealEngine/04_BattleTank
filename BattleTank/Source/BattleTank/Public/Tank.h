@@ -21,15 +21,18 @@ public:
 	ATank();
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel * BarrelToSet);
+	UTankBarrel * GetBarrelReference() const;
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret * TurretToSet);
 private:
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	// Sesible starting value of 1000 m/s
-	float LaunchSpeed = 10000; 
-
+	float LaunchSpeed = 4000; 
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTImeInSecounds = 3;
+	float LastFireTime = 0;
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile>  ProjectileBlueprint ; // alternetive https://docs.unrealengine.com/latest/INT/Programming/UnrealArchitecture/TSubclassOf/
 	// local refrense to the barrel to spawn projectiles.
@@ -38,11 +41,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent * TankAimingComponent = nullptr;
+	
 
 public:	
 	// Called every frame
 	
-	void AimAt(FVector HitLocation);
+	bool AimAt(FVector HitLocation);
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

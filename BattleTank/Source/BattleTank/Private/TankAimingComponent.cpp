@@ -38,9 +38,9 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 //auto OwnerName = GetOwner()->GetName();
 //UE_LOG(LogTemp, Warning, TEXT("%s is aming at %s from %s "), *OwnerName, *HitLocation.ToString(), *Barrel->GetComponentLocation().ToString())
 
-void UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
+bool UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 {
-	if (!Barrel) { return; } // Barrel is set in blueprint
+	if (!Barrel) { return false; } // Barrel is set in blueprint
 	FVector OutVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Bullet"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
@@ -60,7 +60,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 		
 		
 		auto AimDirection = OutVelocity.GetSafeNormal();
-		MoveBarrel(AimDirection);
+		if (MoveBarrel(AimDirection)) {
+			
+			return true;
+			
+		}
+	
 		//auto time = GetWorld()->GetRealTimeSeconds();
 		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim soultion found at %s"), time, *AimDirection.ToString())
 	}
@@ -69,35 +74,30 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 		auto time = GetWorld()->GetRealTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT(" %f: No aim solution found"), time)
 	}
-	
+	return false;
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	Barrel = BarrelToSet;
 	
-	auto OwnerName = GetOwner()->GetName();
-	
 }
 
 void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
 {
 	Turret = TurretToSet;
-	auto OwnerName = GetOwner()->GetName();
-}
-
-void UTankAimingComponent::GetBarrelReference() // TODO remove
-{
-	auto OwnerName = GetOwner()->GetName();
 	
 }
 
-void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+
+
+bool UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
+	if (!Barrel) { return false; }
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto DeltaBarrel = AimDirection.Rotation() - BarrelRotator;
 	Barrel->Elevate(DeltaBarrel.Pitch);
-
+	if (!Turret) { return false; }
 	if (FMath::Abs(DeltaBarrel.Yaw) < 180)
 	{
 		Turret->Rotate(DeltaBarrel.Yaw);
@@ -106,8 +106,11 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	{
 		Turret->Rotate(-DeltaBarrel.Yaw);
 	}
+	UE_LOG(LogTemp, Warning, TEXT("%s Got here"), *DeltaBarrel.ToString() )
+	if (FMath::Abs(DeltaBarrel.Yaw)< 0.005){
+		return true;
+	}
 	
-	
-
+	return false;
 }
 
