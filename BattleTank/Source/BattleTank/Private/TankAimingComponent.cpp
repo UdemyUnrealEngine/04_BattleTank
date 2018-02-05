@@ -106,7 +106,7 @@ bool UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	{
 		Turret->Rotate(-DeltaBarrel.Yaw);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("%s Got here"), *DeltaBarrel.ToString() )
+	
 	if (FMath::Abs(DeltaBarrel.Yaw)< 0.005){
 		return true;
 	}

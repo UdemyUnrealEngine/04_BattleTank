@@ -10,7 +10,9 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class AProjectile;
+class UTankTrack;
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -21,11 +23,20 @@ public:
 	ATank();
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel * BarrelToSet);
+
 	UTankBarrel * GetBarrelReference() const;
+
 	UFUNCTION(BlueprintCallable)
 	void Fire();
+
+	UFUNCTION(BlueprintCallable)
+	void MoveForward(float speed);
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret * TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTrackRefrense(UTankTrack *LeftTrackToSet, UTankTrack *RightTrackToSet);
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	// Sesible starting value of 1000 m/s
@@ -41,13 +52,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent * TankAimingComponent = nullptr;
+	UTankMovementComponent * TankMovementComponent = nullptr;
 	
 
 public:	
 	// Called every frame
 	
 	bool AimAt(FVector HitLocation);
-
+	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

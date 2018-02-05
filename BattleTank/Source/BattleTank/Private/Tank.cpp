@@ -5,6 +5,7 @@
 #include "TankTurret.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 
 
 // Sets default values
@@ -14,7 +15,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 	// No Need to protect ppointers as added at constructor
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimComponent"));
-	
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MoveComponent"));
 }
 
 void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
@@ -38,7 +39,7 @@ void ATank::Fire()
 		Bullet->Launch(LaunchSpeed);
 		bIsReloaded = false;
 		LastFireTime = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("GUN Fireing"));
+		
 	}
 	
 	
@@ -47,6 +48,11 @@ void ATank::Fire()
 void ATank::SetTurretReference(UTankTurret * TurretToSet) {
 
 	TankAimingComponent->SetTurretReference(TurretToSet);
+}
+
+void ATank::SetTrackRefrense(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
+{
+	TankMovementComponent->SetTrackRefrense(LeftTrackToSet, RightTrackToSet);
 }
 
 // Called when the game starts or when spawned
@@ -66,6 +72,11 @@ bool ATank::AimAt(FVector HitLocation)
 		return true;
 	}
 	return false;
+}
+
+void ATank::MoveForward(float speed)
+{
+	TankMovementComponent->IntentMoveForward(speed);
 }
 
 // Called to bind functionality to input
