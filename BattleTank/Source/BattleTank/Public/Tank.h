@@ -29,14 +29,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
-	UFUNCTION(BlueprintCallable)
-	void MoveForward(float speed);
+	
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret * TurretToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTrackRefrense(UTankTrack *LeftTrackToSet, UTankTrack *RightTrackToSet);
+	
+	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	// Sesible starting value of 1000 m/s
@@ -52,6 +51,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent * TankAimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
 	UTankMovementComponent * TankMovementComponent = nullptr;
 	
 
