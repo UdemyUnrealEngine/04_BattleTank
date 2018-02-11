@@ -109,6 +109,7 @@ bool UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	
 	if (FMath::Abs(DeltaBarrel.Yaw)< 0.005){
 		return true;
+		
 	}
 	
 	return false;

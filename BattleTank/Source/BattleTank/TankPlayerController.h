@@ -21,14 +21,16 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
-
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank * GetcontrolledTank() const;
 private:
 	void AimTowardsCrosshair();
 	
 	bool GetSightRayHitLocation(FVector &HitLocation) const;
 	bool GetRayCastLocation(FVector,FVector& HitLocation) const;
 	bool GetLookDirection(FVector2D CrosshairLocatin,FVector &LookDirection) const ;
-	ATank * GetcontrolledTank() const;
+	
 	
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5;
