@@ -30,9 +30,11 @@ void ATankAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime); // Call parent class tick function  
 	PlayerController = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	AIController = Cast<ATank>(GetPawn());
-	if (AIController && PlayerController) {
+	if (PlayerController) {
+		MoveToActor(PlayerController, MoveToRange);
+		//AIController->Fire();
 		if (AIController->AimAt(PlayerController->GetActorLocation())) {
-			AIController->Fire();
+			//
 		}
 		
 		

@@ -19,11 +19,14 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 	void AimAt(FVector HitLocation);
-
+	UPROPERTY(EditDefaultsOnly)
+	float MoveToRange = 300;
+	
 protected:
 
 private:
-		virtual void BeginPlay() override;
+		
+ 		virtual void BeginPlay() override;
 		ATank * PlayerController = nullptr;
 		ATank * AIController = nullptr;
 	

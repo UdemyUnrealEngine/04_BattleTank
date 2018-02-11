@@ -38,8 +38,7 @@ public:
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	// Sesible starting value of 1000 m/s
-	float LaunchSpeed = 4000; 
+	float LaunchSpeed = 8000; 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTImeInSecounds = 3;
 	float LastFireTime = 0;
