@@ -28,7 +28,11 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	bool AimAt(FVector HitLocation,float LaunchSpeed);
+
+	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetBarrelReference(UTankBarrel * BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetTurretReference(UTankTurret * TurretToSet);
 	
 	bool MoveBarrel(FVector AimDirection);

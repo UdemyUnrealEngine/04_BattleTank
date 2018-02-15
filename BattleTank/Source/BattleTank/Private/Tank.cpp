@@ -14,23 +14,11 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	// No Need to protect ppointers as added at constructor
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimComponent"));
+
 	
 }
 
-void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
 
-	//used for spawning projectiles
-	Barrel = BarrelToSet;
-}
-UTankBarrel * ATank::GetBarrelReference() const
-{
-
-	return Barrel;
-}
 void ATank::Fire()
 {
 	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTImeInSecounds;
@@ -46,10 +34,7 @@ void ATank::Fire()
 	
 	
 }
-void ATank::SetTurretReference(UTankTurret * TurretToSet) {
 
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
 
 
 

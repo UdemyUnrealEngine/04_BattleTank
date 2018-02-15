@@ -21,18 +21,16 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel * BarrelToSet);
+	
 
-	UTankBarrel * GetBarrelReference() const;
+	
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
 	
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret * TurretToSet);
+	
 
 	
 	
