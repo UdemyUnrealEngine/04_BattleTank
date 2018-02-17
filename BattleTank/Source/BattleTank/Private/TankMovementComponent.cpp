@@ -23,24 +23,28 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 }
 void UTankMovementComponent::IntentMoveBack(float speed)
 {
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetSpeed(speed);
 	RightTrack->SetSpeed(speed);
 }
 
 void UTankMovementComponent::IntentMoveRight(float speed)
 {
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetSpeed(speed);
 	RightTrack->SetSpeed(-speed);
 }
 
 void UTankMovementComponent::IntentMoveLeft(float speed)
 {
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetSpeed(-speed);
 	RightTrack->SetSpeed(speed);
 }
 
 void UTankMovementComponent::SetTrackRefrense(UTankTrack *LeftTrackToSet, UTankTrack *RightTrackToSet)
 {
+	
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }

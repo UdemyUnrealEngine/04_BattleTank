@@ -6,12 +6,14 @@
 #include "TankTrack.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
+
 
 
 // Sets default values
 ATank::ATank()
 {
+	auto name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("DONKEY %s Tank Constructor c++"), *name)
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	//auto name = GetOwner()->GetName();
@@ -23,8 +25,8 @@ ATank::ATank()
 void ATank::Fire()
 {
 	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTImeInSecounds;
-	
-	if (Barrel && bIsReloaded) {
+	if ( !ensure(Barrel) ) { return; }
+	if (bIsReloaded) {
 		auto Bullet = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Bullet")), Barrel->GetSocketRotation(FName("Bullet")));
 		Bullet->Launch(LaunchSpeed);
 		bIsReloaded = false;
@@ -39,16 +41,18 @@ void ATank::Fire()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
+	auto name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("DONKEY %s Tank BeginPlay c++"), *name)
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	Barrel = FindComponentByClass<UTankBarrel>();
 	Super::BeginPlay();
-	//auto name = GetOwner()->GetName();
-	//UE_LOG(LogTemp, Warning, TEXT("DONKEY %s Tank BeginPlay c++"),*name)
 }
 
 // Called every fram
 
 bool ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return false; }
+	if (!ensure(TankAimingComponent) ) { return false; }
 	if (TankAimingComponent->AimAt(HitLocation, LaunchSpeed)) {
 		return true;
 	}

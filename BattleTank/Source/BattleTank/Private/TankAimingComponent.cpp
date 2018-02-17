@@ -40,7 +40,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 bool UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 {
-	if (!Barrel) { return false; } // Barrel is set in blueprint
+	if (!ensure(Barrel) ) { return false; } // Barrel is set in blueprint
 	FVector OutVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Bullet"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
@@ -89,11 +89,11 @@ void UTankAimingComponent::SetReference(UTankTurret * TurretToSet, UTankBarrel *
 
 bool UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
-	if (!Barrel) { return false; }
+	if (!ensure(Barrel) ) { return false; }
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto DeltaBarrel = AimDirection.Rotation() - BarrelRotator;
 	Barrel->Elevate(DeltaBarrel.Pitch);
-	if (!Turret) { return false; }
+	if (!ensure(Turret) ) { return false; }
 	if (FMath::Abs(DeltaBarrel.Yaw) < 180)
 	{
 		Turret->Rotate(DeltaBarrel.Yaw);
@@ -104,6 +104,7 @@ bool UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	}
 	
 	if (FMath::Abs(DeltaBarrel.Yaw)< 0.005){
+		
 		return true;
 		
 	}

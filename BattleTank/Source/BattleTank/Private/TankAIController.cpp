@@ -11,16 +11,10 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
+	PlayerController = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	AIController = Cast<ATank>(GetPawn());
+	if (!ensure(PlayerController)) { return; }
 	
-	
-	if (!PlayerController) {
-		UE_LOG(LogTemp, Warning, TEXT("GetPlayerTank function did not find a Player Controller!"))
-			
-	}
-	else {
-		//UE_LOG(LogTemp, Warning, TEXT("GetPlayerTank function found %s"), *PlayerController->GetName())
-			
-	}
 
 	
 }
@@ -28,13 +22,13 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime); // Call parent class tick function  
-	PlayerController = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	AIController = Cast<ATank>(GetPawn());
+	
+	
 	if (PlayerController) {
 		MoveToActor(PlayerController, MoveToRange);
-		//AIController->Fire();
+		
 		if (AIController->AimAt(PlayerController->GetActorLocation())) {
-			//
+			//AIController->Fire();
 		}
 		
 		

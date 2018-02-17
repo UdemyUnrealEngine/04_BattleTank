@@ -10,6 +10,7 @@
  * 
  */
 class ATank;
+class UTankAimingComponent;
 UCLASS()
 
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -24,6 +25,9 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank * GetcontrolledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponent(UTankAimingComponent * AimcopRef);
 private:
 	void AimTowardsCrosshair();
 	
