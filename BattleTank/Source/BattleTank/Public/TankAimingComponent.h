@@ -41,7 +41,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BluePrintReadOnly, Category = "State")
-	 FiringStatus = EFiringStatus::Aiming;
+	EFiringStatus FiringStatus = EFiringStatus::Aiming;
 
 public:	
 	// Called every frame
