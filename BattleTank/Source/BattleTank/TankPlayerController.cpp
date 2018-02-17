@@ -3,7 +3,7 @@
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
-#include "tank.h"
+
 #include "TankAimingComponent.h"
 #include "DrawDebugHelpers.h"
 
@@ -11,7 +11,7 @@
 void ATankPlayerController::BeginPlay() {
 	
 	Super::BeginPlay();
-	 Aimingcomponenet = GetcontrolledTank()->FindComponentByClass<UTankAimingComponent>();
+	 Aimingcomponenet = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
 	if(Aimingcomponenet){
 		FoundAimingComponent(Aimingcomponenet);
@@ -58,12 +58,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 	
 	}
 	return false;
-	
 
-	
-	
-	
-	
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D CrossHairLocation, FVector & CrossHairHitDirection) const
@@ -71,7 +66,6 @@ bool ATankPlayerController::GetLookDirection(FVector2D CrossHairLocation, FVecto
 	FVector CameraWorldLocation;// Not Used but needed(OUT param)
 	//turns 2d screen posistion in to 3d posistion and direction, last to params ar OUT params
 	return DeprojectScreenPositionToWorld(CrossHairLocation.X, CrossHairLocation.Y, CameraWorldLocation, CrossHairHitDirection);
-
 
 }
 bool ATankPlayerController::GetRayCastLocation(FVector CrossHairHitDirection, FVector & HitLocation) const
@@ -93,6 +87,3 @@ bool ATankPlayerController::GetRayCastLocation(FVector CrossHairHitDirection, FV
 
 
 
-ATank* ATankPlayerController::GetcontrolledTank() const {
-	return Cast<ATank>(GetPawn());
-}

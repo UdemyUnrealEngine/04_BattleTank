@@ -14,7 +14,7 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 	PlayerController = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	AIController = Cast<ATank>(GetPawn());
-	Aimingcomponenet = Cast<ATank>(GetPawn())->FindComponentByClass<UTankAimingComponent>();
+	Aimingcomponenet = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(PlayerController)) { return; }
 	
 
