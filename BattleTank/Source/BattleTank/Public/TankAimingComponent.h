@@ -29,11 +29,10 @@ public:
 	UTankAimingComponent();
 	bool AimAt(FVector HitLocation,float LaunchSpeed);
 
+	
 	UFUNCTION(BlueprintCallable, Category = Input)
-	void SetBarrelReference(UTankBarrel * BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Input)
-	void SetTurretReference(UTankTurret * TurretToSet);
+	void SetReference(UTankTurret * TurretToSet, UTankBarrel * BarrelToSet);
+	
 	
 	bool MoveBarrel(FVector AimDirection);
 
@@ -42,7 +41,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BluePrintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+	EFiringStatus FiringStatus = EFiringStatus::Aiming;
 
 public:	
 	// Called every frame
