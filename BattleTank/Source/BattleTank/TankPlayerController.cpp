@@ -11,7 +11,7 @@
 void ATankPlayerController::BeginPlay() {
 	
 	Super::BeginPlay();
-	auto Aimingcomponenet = GetcontrolledTank()->FindComponentByClass<UTankAimingComponent>();
+	 Aimingcomponenet = GetcontrolledTank()->FindComponentByClass<UTankAimingComponent>();
 
 	if(Aimingcomponenet){
 		FoundAimingComponent(Aimingcomponenet);
@@ -31,14 +31,14 @@ void ATankPlayerController::Tick(float DeltaTime)
 void ATankPlayerController::AimTowardsCrosshair()
 {
 	
-	if ( !ensure( GetcontrolledTank() ) )  { return; }
-
+	//if ( !ensure( GetcontrolledTank() ) )  { return; } TODO Remove
+	if (!ensure(Aimingcomponenet)) { return; }
 	FVector HitLocation(0); //OUT param
 
 	
 	if (GetSightRayHitLocation(HitLocation)) {
 		
-		GetcontrolledTank()->AimAt(HitLocation);
+		Aimingcomponenet->AimAt(HitLocation);
 		//turn turret
 	}
 	

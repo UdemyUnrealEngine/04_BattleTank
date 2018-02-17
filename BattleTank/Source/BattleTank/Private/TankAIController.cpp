@@ -2,6 +2,7 @@
 
 #include "TankAIController.h"
 #include "TankBarrel.h"
+#include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "Tank.h"
 
@@ -13,6 +14,7 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 	PlayerController = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	AIController = Cast<ATank>(GetPawn());
+	Aimingcomponenet = Cast<ATank>(GetPawn())->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(PlayerController)) { return; }
 	
 
@@ -27,8 +29,8 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerController) {
 		MoveToActor(PlayerController, MoveToRange);
 		
-		if (AIController->AimAt(PlayerController->GetActorLocation())) {
-			//AIController->Fire();
+		if (Aimingcomponenet->AimAt( PlayerController->GetActorLocation() ) ) {
+			AIController->Fire();
 		}
 		
 		

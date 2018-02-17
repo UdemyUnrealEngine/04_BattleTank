@@ -21,18 +21,9 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 	
-
-	
-
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
-	
-
-	
-
-	
-	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 8000; 
@@ -53,9 +44,9 @@ protected:
 	
 
 public:	
-	// Called every frame
 	
-	bool AimAt(FVector HitLocation);
+	
+	
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

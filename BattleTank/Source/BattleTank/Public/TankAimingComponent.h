@@ -18,6 +18,7 @@ Reloading
 class UTankTurret;
 class UTankBarrel;
 
+
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -27,7 +28,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	bool AimAt(FVector HitLocation,float LaunchSpeed);
+	bool AimAt(FVector HitLocation);
 
 	
 	UFUNCTION(BlueprintCallable, Category = Input)
@@ -39,6 +40,9 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 
 	UPROPERTY(BluePrintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Aiming;
@@ -50,6 +54,8 @@ public:
 private:
 	UTankBarrel * Barrel = nullptr;
 	UTankTurret * Turret = nullptr;
-	
-	
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 8000;
+ 	
 };

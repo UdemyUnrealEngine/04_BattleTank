@@ -24,6 +24,10 @@ void UTankAimingComponent::BeginPlay()
 	
 }
 
+void UTankAimingComponent::Fire()
+{
+}
+
 
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -38,7 +42,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 //auto OwnerName = GetOwner()->GetName();
 //UE_LOG(LogTemp, Warning, TEXT("%s is aming at %s from %s "), *OwnerName, *HitLocation.ToString(), *Barrel->GetComponentLocation().ToString())
 
-bool UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
+bool UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel) ) { return false; } // Barrel is set in blueprint
 	FVector OutVelocity;

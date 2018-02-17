@@ -10,6 +10,7 @@
  * 
  */
 class ATank;
+class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
@@ -25,10 +26,10 @@ public:
 protected:
 
 private:
-		
- 		virtual void BeginPlay() override;
-		ATank * PlayerController = nullptr;
-		ATank * AIController = nullptr;
 	
+ 	virtual void BeginPlay() override;
+	ATank * PlayerController = nullptr;
+	ATank * AIController = nullptr;
+	UTankAimingComponent * Aimingcomponenet = nullptr;
 	
 };

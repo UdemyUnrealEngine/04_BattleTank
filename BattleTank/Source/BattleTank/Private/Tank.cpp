@@ -50,14 +50,7 @@ void ATank::BeginPlay()
 
 // Called every fram
 
-bool ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAimingComponent) ) { return false; }
-	if (TankAimingComponent->AimAt(HitLocation, LaunchSpeed)) {
-		return true;
-	}
-	return false;
-}
+
 
 
 

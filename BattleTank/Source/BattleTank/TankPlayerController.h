@@ -34,8 +34,10 @@ private:
 	bool GetSightRayHitLocation(FVector &HitLocation) const;
 	bool GetRayCastLocation(FVector,FVector& HitLocation) const;
 	bool GetLookDirection(FVector2D CrosshairLocatin,FVector &LookDirection) const ;
+	UTankAimingComponent * Aimingcomponenet = nullptr;
 	
-	
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 8000;
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5;
 	UPROPERTY(EditDefaultsOnly)
