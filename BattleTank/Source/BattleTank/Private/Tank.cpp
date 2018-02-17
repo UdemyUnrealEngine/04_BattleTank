@@ -4,8 +4,9 @@
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "TankTrack.h"
+#include "Engine/World.h"
 #include "Projectile.h"
-#include "TankAimingComponent.h"
+
 
 
 
@@ -43,7 +44,7 @@ void ATank::BeginPlay()
 {
 	auto name = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("DONKEY %s Tank BeginPlay c++"), *name)
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	
 	Barrel = FindComponentByClass<UTankBarrel>();
 	Super::BeginPlay();
 }
