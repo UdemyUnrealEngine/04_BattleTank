@@ -21,20 +21,18 @@ void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	LastFireTime = GetWorld()->GetTimeSeconds();
 }
 
 void UTankAimingComponent::Fire()
 {
-	FiringStatus = EFiringStatus::Reloading;
-	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTImeInSecounds;
+	
+	
 	if (!ensure(Barrel)) { return; }
-	if (bIsReloaded) {
+	if (FiringStatus != EFiringStatus::Reloading) {
 		
 		auto Bullet = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Bullet")), Barrel->GetSocketRotation(FName("Bullet")));
 		Bullet->Launch(LaunchSpeed);
-		bIsReloaded = false;
 		LastFireTime = GetWorld()->GetTimeSeconds();
 
 	}
@@ -45,7 +43,18 @@ void UTankAimingComponent::Fire()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
 
+	// ...
+	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTImeInSecounds) {
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if (bDoneAiming) {
+		FiringStatus = EFiringStatus::Locked;
+	}
+	else {
+		FiringStatus = EFiringStatus::Aiming;
+	}
 	// ...
 }
 
@@ -76,8 +85,9 @@ bool UTankAimingComponent::AimAt(FVector HitLocation)
 		
 		
 		auto AimDirection = OutVelocity.GetSafeNormal();
-		if (MoveBarrel(AimDirection)) {
-			FiringStatus = EFiringStatus::Locked;
+		bDoneAiming = MoveBarrel(AimDirection);
+		if (bDoneAiming) {
+			
 			return true;
 			
 		}
@@ -87,8 +97,8 @@ bool UTankAimingComponent::AimAt(FVector HitLocation)
 	}
 	else {
 
-		auto time = GetWorld()->GetRealTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT(" %f: No aim solution found"), time)
+		
+		//UE_LOG(LogTemp, Warning, TEXT("No aim solution found"))
 	}
 	return false;
 }
@@ -119,8 +129,10 @@ bool UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	{
 		Turret->Rotate(-DeltaBarrel.Yaw);
 	}
+	const auto deltavector = AimDirection - Barrel->GetForwardVector();
 	
-	if (FMath::Abs(DeltaBarrel.Yaw)< 0.005){
+		//FMath::Abs(DeltaBarrel.Yaw)< 0.005
+	if (Barrel->GetForwardVector().Equals(AimDirection, 0.007)){
 		
 		return true;
 		

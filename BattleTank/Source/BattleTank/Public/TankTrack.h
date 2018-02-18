@@ -14,10 +14,20 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 public:
+	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetSpeed(float speed);
-private:
-	UPROPERTY(EditDefaultsOnly)
-	float TrackMaxDrivingForce = 400000;
+protected:
+	virtual void BeginPlay() override;
 	
+private:
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit);
+	UPROPERTY(EditDefaultsOnly)
+	float TrackMaxDrivingForce = 40000000.0;
+	UTankTrack();
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void ApplySidewaysForce();
+	void DriveTrack();
+	float CurrentSpeed = 0;
 };

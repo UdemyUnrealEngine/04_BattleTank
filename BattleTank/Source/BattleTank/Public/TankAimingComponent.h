@@ -63,6 +63,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTImeInSecounds = 3;
 	float LastFireTime = 0;
+	bool bDoneAiming = false;
 
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile>  ProjectileBlueprint; // alternetive https://docs.unrealengine.com/latest/INT/Programming/UnrealArchitecture/TSubclassOf/

@@ -19,7 +19,6 @@ class BATTLETANK_API ATankAIController : public AAIController
 public:
 	
 	virtual void Tick(float DeltaTime) override;
-	void AimAt(FVector HitLocation);
 	UPROPERTY(EditDefaultsOnly)
 	float MoveToRange = 3000;
 	

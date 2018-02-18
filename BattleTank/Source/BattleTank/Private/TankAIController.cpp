@@ -28,14 +28,8 @@ void ATankAIController::Tick(float DeltaTime)
 			Aimingcomponenet->Fire();
 		}
 		
-		
-			
-		
 	}
 		
+}
 
-}
-void ATankAIController::AimAt(FVector HitLocation)
-{
-}
 
