@@ -28,7 +28,6 @@ protected:
 private:
 	
  	virtual void BeginPlay() override;
-	ATank * PlayerController = nullptr;
 	ATank * AIController = nullptr;
 	UTankAimingComponent * Aimingcomponenet = nullptr;
 	

@@ -15,8 +15,10 @@ Aiming,
 Reloading
 
 };
-class UTankTurret;
 class UTankBarrel;
+class UTankTurret;
+class AProjectile;
+
 
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -29,7 +31,8 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	bool AimAt(FVector HitLocation);
-
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 	
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetReference(UTankTurret * TurretToSet, UTankBarrel * BarrelToSet);
@@ -41,8 +44,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	
-	UFUNCTION(BlueprintCallable)
-	void Fire();
+	
 
 	UPROPERTY(BluePrintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Aiming;
@@ -57,5 +59,14 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 8000;
+	
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTImeInSecounds = 3;
+	float LastFireTime = 0;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile>  ProjectileBlueprint; // alternetive https://docs.unrealengine.com/latest/INT/Programming/UnrealArchitecture/TSubclassOf/
+	
+	
  	
 };

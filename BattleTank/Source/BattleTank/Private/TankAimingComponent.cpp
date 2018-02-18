@@ -4,6 +4,7 @@
 #include "Engine/World.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values for this component's properties
@@ -26,6 +27,17 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::Fire()
 {
+	FiringStatus = EFiringStatus::Reloading;
+	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTImeInSecounds;
+	if (!ensure(Barrel)) { return; }
+	if (bIsReloaded) {
+		
+		auto Bullet = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Bullet")), Barrel->GetSocketRotation(FName("Bullet")));
+		Bullet->Launch(LaunchSpeed);
+		bIsReloaded = false;
+		LastFireTime = GetWorld()->GetTimeSeconds();
+
+	}
 }
 
 
@@ -65,7 +77,7 @@ bool UTankAimingComponent::AimAt(FVector HitLocation)
 		
 		auto AimDirection = OutVelocity.GetSafeNormal();
 		if (MoveBarrel(AimDirection)) {
-			
+			FiringStatus = EFiringStatus::Locked;
 			return true;
 			
 		}
@@ -93,6 +105,7 @@ void UTankAimingComponent::SetReference(UTankTurret * TurretToSet, UTankBarrel *
 
 bool UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
+	
 	if (!ensure(Barrel) ) { return false; }
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto DeltaBarrel = AimDirection.Rotation() - BarrelRotator;

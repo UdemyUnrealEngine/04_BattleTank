@@ -1,11 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-#include "TankBarrel.h"
-#include "TankTurret.h"
-#include "TankTrack.h"
 #include "Engine/World.h"
-#include "Projectile.h"
+
 
 
 
@@ -23,21 +20,7 @@ ATank::ATank()
 }
 
 
-void ATank::Fire()
-{
-	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTImeInSecounds;
-	if ( !ensure(Barrel) ) { return; }
-	if (bIsReloaded) {
-		auto Bullet = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Bullet")), Barrel->GetSocketRotation(FName("Bullet")));
-		Bullet->Launch(LaunchSpeed);
-		bIsReloaded = false;
-		LastFireTime = GetWorld()->GetTimeSeconds();
-		
-	}
-	
-	
-	
-}
+
 
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
@@ -45,7 +28,7 @@ void ATank::BeginPlay()
 	auto name = GetName();
 	UE_LOG(LogTemp, Warning, TEXT("DONKEY %s Tank BeginPlay c++"), *name)
 	
-	Barrel = FindComponentByClass<UTankBarrel>();
+	
 	Super::BeginPlay();
 }
 
