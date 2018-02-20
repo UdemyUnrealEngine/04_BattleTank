@@ -96,7 +96,6 @@ bool UTankAimingComponent::AimAt(FVector HitLocation)
 		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim soultion found at %s"), time, *AimDirection.ToString())
 	}
 	else {
-
 		
 		//UE_LOG(LogTemp, Warning, TEXT("No aim solution found"))
 	}

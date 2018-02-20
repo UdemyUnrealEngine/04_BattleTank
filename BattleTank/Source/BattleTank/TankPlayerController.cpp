@@ -54,8 +54,29 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 
 	if (GetLookDirection(CrossHairLocation, CrossHairHitDirection)) {//returns a value for CrossHairHitlocation
 
-		return GetRayCastLocation(CrossHairHitDirection, HitLocation);// raycast to trace location and return vector to HitLocation
+		FHitResult HitResult;
+		auto PlayerLocation = PlayerCameraManager->GetCameraLocation();
+		auto EndLocation = PlayerLocation + CrossHairHitDirection * LineTraceRange;
+
+		
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, PlayerLocation, EndLocation, ECollisionChannel::ECC_Visibility)) {
+			HitLocation = HitResult.Location;
+			return true;
+		}
+		else {
+			// if aiming at sky aim where crosshair is
+			FVector CameraLocation;
+			FVector CameraDirection;
+			DeprojectScreenPositionToWorld(CrossHairLocation.X, CrossHairLocation.Y, CameraLocation, CameraDirection);
+			HitLocation = FVector(CameraLocation + CameraDirection * 10000);
+			return true;
+		}
+
+		return false;
 	
+	}
+	else {
+		
 	}
 	return false;
 
@@ -81,7 +102,10 @@ bool ATankPlayerController::GetRayCastLocation(FVector CrossHairHitDirection, FV
 		HitLocation = HitResult.Location;
 		return true;
 	}
-	HitLocation = FVector(0);
+	else {
+		
+	}
+	
 	return false;
 }
 
