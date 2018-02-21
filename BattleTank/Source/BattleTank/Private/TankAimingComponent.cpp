@@ -29,10 +29,11 @@ void UTankAimingComponent::Fire()
 	
 	
 	if (!ensure(Barrel)) { return; }
-	if (FiringStatus != EFiringStatus::Reloading) {
+	if (FiringStatus != EFiringStatus::Reloading && FiringStatus != EFiringStatus::NoAmmo) {
 		
 		auto Bullet = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Bullet")), Barrel->GetSocketRotation(FName("Bullet")));
 		Bullet->Launch(LaunchSpeed);
+		Ammo -= 1;
 		LastFireTime = GetWorld()->GetTimeSeconds();
 
 	}
@@ -46,7 +47,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	
 
 	// ...
-	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTImeInSecounds) {
+	if (Ammo <= 0) {
+		FiringStatus = EFiringStatus::NoAmmo;
+	}
+	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTImeInSecounds) {
 		FiringStatus = EFiringStatus::Reloading;
 	}
 	else if (bDoneAiming) {
@@ -56,6 +60,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 		FiringStatus = EFiringStatus::Aiming;
 	}
 	// ...
+}
+
+int32 UTankAimingComponent::GetAmmo() const
+{
+	return Ammo;
 }
 
 // Barrel->GetSocketTransform(FName("Barrel")).GetLocation().ToString()

@@ -12,6 +12,7 @@ UENUM()
 enum class EFiringStatus :uint8 {
 Locked,
 Aiming,
+NoAmmo,
 Reloading
 
 };
@@ -31,8 +32,12 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	bool AimAt(FVector HitLocation);
+
 	UFUNCTION(BlueprintCallable)
 	void Fire();
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetAmmo() const;
 	
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetReference(UTankTurret * TurretToSet, UTankBarrel * BarrelToSet);
@@ -52,7 +57,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
 private:
 	UTankBarrel * Barrel = nullptr;
 	UTankTurret * Turret = nullptr;
@@ -63,6 +68,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTImeInSecounds = 3;
 	float LastFireTime = 0;
+	int32 Ammo = 3;
 	bool bDoneAiming = false;
 
 	UPROPERTY(EditAnywhere, Category = Setup)
