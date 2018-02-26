@@ -50,7 +50,7 @@ SourceArt/**/*.png
 SourceArt/**/*.tga
 
 # StarterContent
-
+../MyProject/
 
 # Binary Files
 Binaries/*

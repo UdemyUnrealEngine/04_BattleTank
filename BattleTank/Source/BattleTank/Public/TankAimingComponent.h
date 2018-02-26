@@ -68,6 +68,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTImeInSecounds = 3;
 	float LastFireTime = 0;
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	int32 Ammo = 3;
 	bool bDoneAiming = false;
 
