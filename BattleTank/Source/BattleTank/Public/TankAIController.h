@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+
 #include "TankAIController.generated.h"
 
 /**
@@ -17,17 +18,20 @@ class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 public:
-	
+	ATankAIController(const FObjectInitializer & ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditDefaultsOnly)
-	float MoveToRange = 3000;
+	float MoveToRange = 7000;
+	
 	
 protected:
-
+	virtual void SetPawn(APawn *inPawn) override;
 private:
 	
  	virtual void BeginPlay() override;
 	ATank * AIController = nullptr;
+	UFUNCTION()
+	void OnDeath();
 	UTankAimingComponent * Aimingcomponenet = nullptr;
-	
+	APawn * PlayerController = nullptr;
 };

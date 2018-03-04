@@ -3,7 +3,7 @@
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
-
+#include"Tank.h"
 #include "TankAimingComponent.h"
 #include "DrawDebugHelpers.h"
 
@@ -11,8 +11,9 @@
 void ATankPlayerController::BeginPlay() {
 	
 	Super::BeginPlay();
+	if (!GetPawn()) { return; }
 	 Aimingcomponenet = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-
+	 Aimingcomponenet->bIsActive = true;
 	if(Aimingcomponenet){
 		FoundAimingComponent(Aimingcomponenet);
 	}
@@ -24,8 +25,23 @@ void ATankPlayerController::BeginPlay() {
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
+	if (!GetPawn()) { return; }
 	Super::Tick(DeltaTime); // Call parent class tick function  
-	AimTowardsCrosshair();
+	if (Aimingcomponenet->bIsActive) {
+		AimTowardsCrosshair();
+	}
+	
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		ATank * PossesedTank = Cast<ATank>(InPawn);
+
+		PossesedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnDeath);
+
+	}
 }
 
 void ATankPlayerController::AimTowardsCrosshair()
@@ -41,6 +57,13 @@ void ATankPlayerController::AimTowardsCrosshair()
 		Aimingcomponenet->AimAt(HitLocation);
 		//turn turret
 	}
+	
+}
+
+void ATankPlayerController::OnDeath()
+{
+	Aimingcomponenet->Deactivate();
+	StartSpectatingOnly();
 	
 }
 

@@ -20,7 +20,8 @@ UTankTrack::UTankTrack() {
 void UTankTrack::BeginPlay()
 {
 	Super::BeginPlay();
-		OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }
 void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction){
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);

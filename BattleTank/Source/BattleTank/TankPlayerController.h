@@ -11,6 +11,8 @@
  */
 
 class UTankAimingComponent;
+
+
 UCLASS()
 
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -24,12 +26,16 @@ public:
 	
 protected:
 	
-
+	// so we can override the function in blueprint,or use BlueprintNativeEvent if you whant both c++ and blueprint implementation
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent * AimcopRef);
-private:
+	virtual void SetPawn(APawn *inPawn) override;
+	UFUNCTION(BlueprintCallable)
 	void AimTowardsCrosshair();
+private:
 	
+	UFUNCTION()
+	void OnDeath();
 	bool GetSightRayHitLocation(FVector &HitLocation) const;
 	bool GetRayCastLocation(FVector,FVector& HitLocation) const;
 	bool GetLookDirection(FVector2D CrosshairLocatin,FVector &LookDirection) const ;
