@@ -82,7 +82,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 		auto EndLocation = PlayerLocation + CrossHairHitDirection * LineTraceRange;
 
 		
-		if (GetWorld()->LineTraceSingleByChannel(HitResult, PlayerLocation, EndLocation, ECollisionChannel::ECC_Visibility)) {
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, PlayerLocation, EndLocation, ECollisionChannel::ECC_Camera)) {
 			HitLocation = HitResult.Location;
 			return true;
 		}
